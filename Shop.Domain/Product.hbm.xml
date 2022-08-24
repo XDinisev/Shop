@@ -1,0 +1,21 @@
+﻿<?xml version = "1.0" encoding = "utf-8" ?>
+<hibernate-mapping xmlns = "urn:nhibernate-mapping-2.2"
+   assembly = "Shop.Domain" namespace = "Shop.Domain">
+
+	<class name = "Category">
+
+		<id name = "Id">
+			<generator class = "native"/>
+		</id>
+
+		<property name = "Title"/>
+		<property name = "Status"/>
+		<property name = "IsDefault"/>
+		
+		<set name="Products" table="`Product`">
+			<key column="CategoryId"/>
+			<one-to-many class="Order"/>
+		</set>
+
+	</class>
+</hibernate-mapping>

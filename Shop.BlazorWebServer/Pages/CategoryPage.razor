@@ -1,0 +1,63 @@
+﻿@page "/category"
+@using Shop.Business.Services
+@using Shop.Domain.Entities
+@inject ICategoryService categoryService
+
+<h1 class="page_title">All Categories</h1>
+
+@if (Categories == null)
+{
+	<h1>Loading...</h1>
+}
+else
+{
+	<table class="table">
+		<thead>
+			<tr>
+				<th></th>
+				<th>Id</th>
+				<th>Title</th>
+				<th>Status</th>
+				<th>IsDefault</th>
+				<th>Details</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var category in Categories)
+			{
+				<tr>
+					<td><img src="https://icon-library.com/images/64-x-64-icon/64-x-64-icon-1.jpg" height="32" width="32" /></td>
+					<td>@category.Id</td>
+					<td>@category.Title</td>
+					<td>@category.Status</td>
+					<td>@category.IsDefault</td>
+					<td>
+						<a href="@($"category/{category.Id}")" class="btn btn-primary table-btn">
+							Detail
+						</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+@code
+{
+	//protected ICategoryService _categoryService { get; set; }
+
+	//public IEnumerable<Category> Categories { get; set; }
+	//Categories = categoryService.GetAll();
+	Categories = new List<Category>()
+	//{
+	//new Category(1, "Kategorija 1", CategoryStatus.Disabled, IsDefault.No, new List<Product>()),
+	//new Category(2, "Kategorija 2", CategoryStatus.Enabled, IsDefault.Yes, new List<Product>()),
+	//new Category(3, "Kategorija 3", CategoryStatus.Disabled, IsDefault.No, new List<Product>()),
+	//new Category(4, "Kategorija 4", CategoryStatus.Enabled, IsDefault.No, new List<Product>())
+	//};
+	//protected override Task OnInitializedAsync()
+	//{
+	//	InitializeCategories();
+	//	return base.OnInitializedAsync();
+	//}
+}
