@@ -21,6 +21,7 @@ namespace Shop.Business.Models
         public ProductStatus Status { get; set; }
         public string Description { get; set; }
         [Required(ErrorMessage = "Category is required")]
+        [Display(Name = "Category")]
         public int CategoryId { get; set; }
         public CategoryViewModel Category { get; set; }
         public IList<Order> Orders { get; set; } = new List<Order>();

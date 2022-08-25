@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FluentValidation;
 using FluentValidation.Attributes;
 using Shop.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
@@ -18,6 +17,7 @@ namespace Shop.Business.Models
         [Required(ErrorMessage = "Status is required")]
         public CategoryStatus Status { get; set; }
         [Required(ErrorMessage = "Default Status is required")]
+        [Display(Name = "Default")]
         public IsDefault IsDefault { get; set; }
     }
     public class CategoryProductsViewModel

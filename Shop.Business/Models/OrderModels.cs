@@ -19,9 +19,11 @@ namespace Shop.Business.Models
         public DateTime Date { get; set; }
         public OrderStatus Status { get; set; }
         [Required(ErrorMessage = "Customer is required")]
+        [Display(Name = "Customer")]
         public int CustomerId { get; set; }
         public CustomerViewModel Customer { get; set; }
         [Required(ErrorMessage = "Product is required")]
+        [Display(Name = "Product")]
         public int ProductId { get; set; }
         public ProductViewModel Product { get; set; }
     }

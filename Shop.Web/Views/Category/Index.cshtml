@@ -1,48 +1,50 @@
 ﻿@model IEnumerable<Shop.Business.Models.CategoryViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+	ViewData["Title"] = "Index";
 }
 
 <h1>Categories</h1>
 
 <p>
-    <a asp-action="Create">Create New Category</a>
+	<a asp-action="Create">Create New Category</a>
 </p>
+@Html.ActionLink("Show Disabled", "Index", new { sortOrder=ViewBag.CurrentSort, showDisabled = ViewBag.ShowDisabledToggle })
 <table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsDefault)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDefault)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id }) |
-                @*@Html.ActionLink("Products", "ListProducts", new { id=item.Id })*@
-            </td>
-        </tr>
-}
-    </tbody>
+	<thead>
+		<tr>
+			<th>
+				@Html.ActionLink(Html.DisplayNameFor(model => model.Title), "Index", new { sortOrder = ViewBag.NameSortToggle, showDisabled=ViewBag.ShowDisabled})
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Status)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.IsDefault)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Title)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Status)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.IsDefault)
+				</td>
+				<td>
+					@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+					@Html.ActionLink("Details", "Details", new { id=item.Id }) |
+					@Html.ActionLink("Delete", "Delete", new { id=item.Id }) |
+					@*@Html.ActionLink("Products", "ListProducts", new { id=item.Id })*@
+				</td>
+			</tr>
+		}
+	</tbody>
 </table>

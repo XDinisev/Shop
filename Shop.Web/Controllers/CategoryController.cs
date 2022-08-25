@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Shop.Business.Models;
 using Shop.Business.Services;
+using Shop.Domain.Entities;
+using System.Linq;
 
 namespace Shop.Web.Controllers
 {
@@ -13,9 +15,31 @@ namespace Shop.Web.Controllers
             _categoryService = categoryService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string sortOrder, string showDisabled)
         {
-            return View(_categoryService.GetAll());
+            var categories = _categoryService.GetAll();
+            ViewBag.NameSortToggle = string.IsNullOrEmpty(sortOrder) ? "nameDesc" : "";
+            ViewBag.ShowDisabledToggle = string.IsNullOrEmpty(showDisabled) ? "yes" : "";
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.ShowDisabled = showDisabled;
+            switch(showDisabled)
+            {
+                case "yes":
+                    break;
+                default:
+                    categories = categories.Where(x => x.Status != CategoryStatus.Disabled);
+                    break;
+            }
+            switch (sortOrder)
+            {
+                case "nameDesc":
+                    categories = categories.OrderByDescending(x => x.Title);
+                    break;
+                default:
+                    categories = categories.OrderBy(x => x.Title);
+                    break;
+            }
+            return View(categories);
         }
 
         public IActionResult Create()

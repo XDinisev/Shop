@@ -50,14 +50,15 @@ namespace Shop.NHibernate.Repositories
                     .ConnectionString("Data Source=PC;Initial Catalog=Shop;Integrated Security=True"))
                  .Mappings(m => m.FluentMappings
                     .AddFromAssemblyOf<NHibernateHelper>())
-                 .ExposeConfiguration(cfg => new SchemaExport(cfg)
-                    .Execute(true, true, false))
+                 .ExposeConfiguration(cfg => new SchemaUpdate(cfg)
+                    .Execute(true, true))
+                 //.ExposeConfiguration(cfg => new SchemaExport(cfg)
+                 //   .Execute(true, true, false))
                  .BuildSessionFactory();
             }
             catch(Exception e)
 			{
                 Console.WriteLine("NASHA: " + e.InnerException);
-                var ss = 10;
 			}
         }
 

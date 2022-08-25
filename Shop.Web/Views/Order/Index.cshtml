@@ -9,14 +9,18 @@
 <p>
     <a asp-action="Create">Create New Order</a>
 </p>
+@Html.ActionLink("Show Complete", "Index", new { sortOrder=ViewBag.CurrentSort, showComplete = ViewBag.ShowCompleteToggle})
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Quantity)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.Product), "Index", new { sortOrder = ViewBag.ProductSortToggle, showComplete=ViewBag.ShowComplete})
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.Customer), "Index", new { sortOrder = ViewBag.CustomerSortToggle, showComplete=ViewBag.ShowComplete})
+            </th>
+            <th>
+                @Html.ActionLink(Html.DisplayNameFor(model => model.Quantity), "Index", new { sortOrder = ViewBag.QuantitySortToggle, showComplete=ViewBag.ShowComplete})
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Status)
@@ -28,10 +32,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
+                @Html.DisplayFor(modelItem => item.Product.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Date)
+                @Html.DisplayFor(modelItem => item.Customer.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Status)

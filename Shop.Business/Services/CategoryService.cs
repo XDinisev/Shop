@@ -39,20 +39,9 @@ namespace Shop.Business.Services
         {
             _unitOfWork.BeginTransaction();
 
-            var toBeDeleted = _categoryRepository.GetById(id);
-
-            try
-            {
-                _categoryRepository.Delete(toBeDeleted);
-            }
-            catch
-            {
-                System.Console.ForegroundColor = System.ConsoleColor.Green;
-                System.Console.WriteLine("Ne postoo kategorija taj ID");
-                System.Console.ForegroundColor = System.ConsoleColor.White;
-                _unitOfWork.Commit();
-                return;
-            }
+            var category = _categoryRepository.GetById(id);
+            if (category.Products.Count == 0)
+                _categoryRepository.Delete(category);
 
             _unitOfWork.Commit();
         }

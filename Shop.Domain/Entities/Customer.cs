@@ -36,7 +36,7 @@ namespace Shop.Domain.Entities
 
     public enum UserType
     {
-        @internal,
-        external
+        Internal,
+        External
     }
 }

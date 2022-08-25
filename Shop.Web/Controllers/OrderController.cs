@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Shop.Business.Models;
 using Shop.Business.Services;
+using Shop.Domain.Entities;
+using System.Linq;
 
 namespace Shop.Web.Controllers
 {
@@ -18,9 +20,48 @@ namespace Shop.Web.Controllers
             _customerService = customerService;
         }
         // GET: OrderController
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string showComplete)
         {
-            return View(_orderService.GetAll());
+            var orders = _orderService.GetAll();
+            ViewBag.CustomerSortToggle = string.IsNullOrEmpty(sortOrder) ? "custDesc" : "";
+            ViewBag.ProductSortToggle = sortOrder == "prod" ? "prodDesc" : "prod";
+            ViewBag.QuantitySortToggle = sortOrder == "qty" ? "qtyDesc" : "qty";
+            ViewBag.ShowCompleteToggle = string.IsNullOrEmpty(showComplete) ? "yes" : "";
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.ShowComplete = showComplete;
+
+
+            switch (showComplete)
+            {
+                case "yes":
+                    break;
+                default:
+                    orders = orders.Where(x => x.Status != OrderStatus.Complete);
+                    break;
+            }
+            switch (sortOrder)
+            {
+                case "prod":
+                    orders = orders.OrderBy(x => x.Product.Title);
+                    break;
+                case "prodDesc":
+                    orders = orders.OrderByDescending(x => x.Product.Title);
+                    break;
+                case "qty":
+                    orders = orders.OrderBy(x => x.Quantity);
+                    break;
+                case "qtyDesc":
+                    orders = orders.OrderByDescending(x => x.Quantity);
+                    break;
+                case "cust":
+                    orders = orders.OrderBy(x => x.Customer.Username);
+                    break;
+                default:
+                    orders = orders.OrderByDescending(x => x.Customer.Username);
+                    break;
+            }
+
+            return View(orders);
         }
 
         // GET: OrderController/Create

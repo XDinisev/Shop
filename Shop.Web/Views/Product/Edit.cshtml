@@ -24,7 +24,7 @@
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
                 @Html.DropDownList("Status",
-                                   new SelectList(Enum.GetValues(typeof(Shop.Domain.Entities.ProductStatus))),
+                                   new SelectList(Enum.GetNames(typeof(Shop.Domain.Entities.ProductStatus))),
                                    new { @class = "form-control"})
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>

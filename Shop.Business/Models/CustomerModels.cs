@@ -14,8 +14,10 @@ namespace Shop.Business.Models
     {
         public virtual int Id { get; set; }
         [Required(ErrorMessage = "First name is required")]
+        [Display(Name ="First Name")]
         public virtual string FirstName { get; set; }
         [Required(ErrorMessage = "Last name is required")]
+        [Display(Name ="Last Name")]
         public virtual string LastName { get; set; }
         [Required(ErrorMessage = "Username is required")]
         public virtual string Username { get; set; }
@@ -25,6 +27,7 @@ namespace Shop.Business.Models
         [EmailAddress]
         public virtual string Email { get; set; }
         [Required(ErrorMessage = "User Type is required")]
+        [Display(Name ="User Type")]
         public virtual UserType UserType { get; set; }
     }
 }

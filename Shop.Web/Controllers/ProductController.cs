@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Shop.Business.Models;
 using Shop.Business.Services;
+using Shop.Domain.Entities;
 
 namespace Shop.Web.Controllers
 {
@@ -19,9 +21,40 @@ namespace Shop.Web.Controllers
         }
 
         // GET: ProductController
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string showUnavailiable)
         {
-            return View(_productService.GetAll());
+            var products = _productService.GetAll();
+
+            ViewBag.NameSortToggle = string.IsNullOrEmpty(sortOrder) ? "nameDesc" : "";
+            ViewBag.CategorySortToggle = sortOrder == "cat" ? "catDesc" : "cat";
+            ViewBag.ShowUnavailiableToggle = string.IsNullOrEmpty(showUnavailiable) ? "yes" : "";
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.ShowUnavailiable = showUnavailiable;
+
+            switch (showUnavailiable)
+            {
+                case "yes":
+                    break;
+                default:
+                    products = products.Where(x => x.Status != ProductStatus.NotAvailiable);
+                    break;
+            }
+            switch (sortOrder)
+            {
+                case "cat":
+                    products = products.OrderBy(x => x.Category.Title);
+                    break;
+                case "catDesc":
+                    products = products.OrderByDescending(x => x.Category.Title);
+                    break;
+                case "nameDesc":
+                    products = products.OrderByDescending(x => x.Title);
+                    break;
+                default:
+                    products = products.OrderBy(x => x.Title);
+                    break;
+            }
+            return View(products);
         }
 
         // GET: ProductController/Details/5
