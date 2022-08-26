@@ -13,13 +13,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                @Html.ActionLink(@Html.DisplayNameFor(model => model.FirstName), "Index", new { sortOrder = ViewBag.FirstNameSortToggle})
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.ActionLink(@Html.DisplayNameFor(model => model.LastName), "Index", new { sortOrder = ViewBag.LastNameSortToggle})
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Username)
+                @Html.ActionLink(@Html.DisplayNameFor(model => model.Username), "Index", new { sortOrder = ViewBag.UsernameSortToggle})
             </th>
             <th></th>
         </tr>

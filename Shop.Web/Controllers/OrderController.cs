@@ -23,6 +23,7 @@ namespace Shop.Web.Controllers
         public ActionResult Index(string sortOrder, string showComplete)
         {
             var orders = _orderService.GetAll();
+
             ViewBag.CustomerSortToggle = string.IsNullOrEmpty(sortOrder) ? "custDesc" : "";
             ViewBag.ProductSortToggle = sortOrder == "prod" ? "prodDesc" : "prod";
             ViewBag.QuantitySortToggle = sortOrder == "qty" ? "qtyDesc" : "qty";

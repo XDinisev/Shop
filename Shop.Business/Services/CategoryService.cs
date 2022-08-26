@@ -31,6 +31,18 @@ namespace Shop.Business.Services
         {
             _unitOfWork.BeginTransaction();
 
+            // Ne moze disabled kategorija da e default
+            if (category.Status != CategoryStatus.Enabled)
+                category.IsDefault = IsDefault.No;
+
+            // Ako e default novata da se izgase drugata default
+            if (category.IsDefault == IsDefault.Yes)
+                foreach (var item in _categoryRepository.GetAll().Where(x => x.IsDefault == IsDefault.Yes))
+                {
+                    item.IsDefault = IsDefault.No;
+                    _categoryRepository.Update(item);
+                }
+
             _categoryRepository.Add(new Category(category.Title, category.Status, category.IsDefault));
 
             _unitOfWork.Commit();
@@ -50,6 +62,19 @@ namespace Shop.Business.Services
             _unitOfWork.BeginTransaction();
 
             var originalCategory = _categoryRepository.GetById(category.Id);
+
+			// Ne moze disabled kategorija da e default
+			//if (category.Status != CategoryStatus.Enabled)
+			//	category.IsDefault = IsDefault.No;
+
+			// Ako e default novata da se izgase drugata default
+			if (category.IsDefault==IsDefault.Yes)
+                foreach(var item in _categoryRepository.GetAll().Where(x => x.IsDefault==IsDefault.Yes))
+				{
+                    item.IsDefault = IsDefault.No;
+                    _categoryRepository.Update(item);
+				}
+
 
             originalCategory.Title = category.Title;
             originalCategory.Status = category.Status;

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Shop.Business.Models;
 using Shop.Business.Services;
+using System.Linq;
 
 namespace Shop.Web.Controllers
 {
@@ -13,9 +14,38 @@ namespace Shop.Web.Controllers
             _customerService = customerService;
         }
         // GET: CustomerController
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder)
         {
-            return View(_customerService.GetAll());
+            var customers = _customerService.GetAll();
+
+            ViewBag.FirstNameSortToggle = string.IsNullOrEmpty(sortOrder) ? "firstName" : "";
+            ViewBag.LastNameSortToggle = sortOrder == "lastName" ? "lastNameDesc" : "lastName";
+            ViewBag.UsernameSortToggle = sortOrder == "username" ? "usernameDesc" : "username";
+            ViewBag.CurrentSort = sortOrder;
+
+            switch (sortOrder)
+            {
+                case "lastName":
+                    customers = customers.OrderBy(x => x.LastName);
+                    break;
+                case "lastNameDesc":
+                    customers = customers.OrderByDescending(x => x.LastName);
+                    break;
+                case "username":
+                    customers = customers.OrderBy(x => x.Username);
+                    break;
+                case "usernameDesc":
+                    customers = customers.OrderByDescending(x => x.Username);
+                    break;
+                case "firstName":
+                    customers = customers.OrderBy(x => x.FirstName);
+                    break;
+                default:
+                    customers = customers.OrderByDescending(x => x.FirstName);
+                    break;
+            }
+
+            return View(customers);
         }
 
         // GET: CustomerController/Details/5
