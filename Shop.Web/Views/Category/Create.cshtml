@@ -21,9 +21,9 @@
 				<label asp-for="Status" class="control-label"></label>
 
 				@Html.DropDownList("Status",
-				new SelectList(Enum.GetValues(typeof(CategoryStatus))),
+				Html.GetEnumSelectList(typeof(CategoryStatus)),
 				"Choose",
-				new { @class = "form-control", @onchange="Change(this)"})
+				new { @class = "form-control", @onchange="Change()"})
 
 
 				<span asp-validation-for="Status" class="text-danger"></span>
@@ -32,8 +32,8 @@
 				<label asp-for="IsDefault" class="control-label"></label>
 
 				@Html.DropDownList("IsDefault",
-				new SelectList(Enum.GetValues(typeof(Shop.Domain.Entities.IsDefault))),
-				"Choose", 
+				Html.GetEnumSelectList(typeof(IsDefault)),
+				"Choose",
 				new { @class = "form-control"})
 
 				<span asp-validation-for="IsDefault" class="text-danger"></span>
@@ -54,14 +54,18 @@
 
 @section Scripts {
 	<script type="text/javascript">
-		function Change(status) {
-			if (status.value == "Disabled") {
-				var doc = document.getElementById("IsDefault")
-				doc.disabled = true
-				doc.value = "No"
+		function Change() {
+			var status = document.getElementById("Status")
+			if (status.value == 1) {
+				var defaultStatus = document.getElementById("IsDefault")
+				document.getElementById("IsDefault").setAttribute("readonly", "true")
+				document.getElementById("IsDefault").setAttribute("style", "pointer-events: none;")
+				defaultStatus.value = 1
 			}
-			else
-				document.getElementById("IsDefault").disabled = false
+			else {
+				document.getElementById("IsDefault").removeAttribute("readonly")
+				document.getElementById("IsDefault").removeAttribute("style")
+			}
 		}
 	</script>
 	@{

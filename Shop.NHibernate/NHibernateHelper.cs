@@ -25,22 +25,6 @@ namespace Shop.NHibernate.Repositories
                 return _sessionFactory;
             }
         }
-
-        //public static ISessionFactory CreateSessionFactory()
-        //{
-        //    ISessionFactory sessionFactory = Fluently.Configure()
-        //        .Database(MsSqlConfiguration.MsSql2012
-        //            //.ConnectionString(@"Data Source=DEV-LT1;Initial Catalog=StudyBuddiesDb;User ID=wwwuser;Password=P@ssw0rd;Pooling=False")
-        //            .ConnectionString(@"Data Source=PC;Initial Catalog=Shop;Integrated Security=SSPI")
-        //            .ShowSql())
-        //        .Mappings(m => m.FluentMappings.AddFromAssemblyOf<CustomerMap>())
-
-        //        .ExposeConfiguration(cfg => new SchemaUpdate(cfg).Execute(true, true))
-        //        .BuildSessionFactory();
-
-        //    return sessionFactory;
-        //}
-
         private static void InitializeSessionFactory()
         {
 			try
@@ -50,10 +34,10 @@ namespace Shop.NHibernate.Repositories
                     .ConnectionString("Data Source=PC;Initial Catalog=Shop;Integrated Security=True"))
                  .Mappings(m => m.FluentMappings
                     .AddFromAssemblyOf<NHibernateHelper>())
-                 .ExposeConfiguration(cfg => new SchemaUpdate(cfg)
-                    .Execute(true, true))
-                 //.ExposeConfiguration(cfg => new SchemaExport(cfg)
-                 //   .Execute(true, true, false))
+				 .ExposeConfiguration(cfg => new SchemaUpdate(cfg)
+					.Execute(true, true))
+				 //.ExposeConfiguration(cfg => new SchemaExport(cfg)
+     //               .Execute(true, true, false))
                  .BuildSessionFactory();
             }
             catch(Exception e)

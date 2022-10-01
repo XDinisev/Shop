@@ -1,4 +1,5 @@
-﻿@model Shop.Business.Models.CategoryViewModel
+﻿@using Shop.Domain.Entities
+@model Shop.Business.Models.CategoryViewModel
 
 @{
 	ViewData["Title"] = "Edit";
@@ -7,7 +8,7 @@
 <h1>Edit Category</h1>
 
 <hr />
-<div class="row">
+<div class="row" onload="Change()">
 	<div class="col-md-4">
 		<form asp-action="Edit">
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -20,8 +21,8 @@
 				<label asp-for="Status" class="control-label"></label>
 
 				@Html.DropDownList("Status",
-				new SelectList(Enum.GetValues(typeof(Shop.Domain.Entities.CategoryStatus))),
-				new { @class = "form-control", @onchange="Change(this)", @onload="Change(this)"})
+				Html.GetEnumSelectList(typeof(CategoryStatus)),
+				new { @class = "form-control", @onchange="Change()"})
 
 				<span asp-validation-for="Status" class="text-danger"></span>
 			</div>
@@ -29,7 +30,7 @@
 				<label asp-for="IsDefault" class="control-label"></label>
 
 				@Html.DropDownList("IsDefault",
-				new SelectList(Enum.GetValues(typeof(Shop.Domain.Entities.IsDefault))),
+				Html.GetEnumSelectList(typeof(IsDefault)),
 				new { @class = "form-control"})
 
 				<span asp-validation-for="IsDefault" class="text-danger"></span>
@@ -45,20 +46,22 @@
 	<a asp-action="Index">Back to List</a>
 </div>
 
-<script type="text/javascript">
-	function Change(status) {
-		console.log("ASHFGDSAHFLJGADSFGJADF")
-		if (status.value == "Disabled") {
-			var defaultStatus = document.getElementById("IsDefault")
-			document.getElementById("IsDefault").setAttribute("readonly", "true")
-			document.getElementById("IsDefault").setAttribute("style", "pointer-events: none;")
-			defaultStatus.value = "No"
-		}
-		else
-			document.getElementById("IsDefault").disabled = false
-	}
-</script>
 @section Scripts {
+	<script type="text/javascript">
+		function Change() {
+			var status = document.getElementById("Status")
+			if (status.value == 1) {
+				var defaultStatus = document.getElementById("IsDefault")
+				document.getElementById("IsDefault").setAttribute("readonly", "true")
+				document.getElementById("IsDefault").setAttribute("style", "pointer-events: none;")
+				defaultStatus.value = 1
+			}
+			else {
+				document.getElementById("IsDefault").removeAttribute("readonly")
+				document.getElementById("IsDefault").removeAttribute("style")
+			}
+		}
+	</script>
 	@{
 		await Html.RenderPartialAsync("_ValidationScriptsPartial");
 	}

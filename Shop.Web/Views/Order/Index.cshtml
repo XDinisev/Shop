@@ -1,54 +1,81 @@
 ﻿@model IEnumerable<Shop.Business.Models.OrderViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+	ViewData["Title"] = "Index";
 }
 
 <h1>Orders</h1>
 
 <p>
-    <a asp-action="Create">Create New Order</a>
+	<a asp-action="Create">Create New Order</a>
 </p>
-@Html.ActionLink("Show Complete", "Index", new { sortOrder=ViewBag.CurrentSort, showComplete = ViewBag.ShowCompleteToggle})
+<button style="display: block; margin-top: 1em; margin-bottom: 1em;" class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#filtering">Filtering</button>
+<div id="filtering" class="collapse">
+<form asp-controller="Order" asp-action="Index" method="get" class="col-md-4">
+	<input hidden type="text" name="sortOrder" class="form-control" value=@ViewBag.CurrentSort>
+	<input hidden type="text" name="showComplete" class="form-control" value=@ViewBag.ShowComplete>
+	<div class="form-group">
+		<label class="form-label">
+			Product
+			<input type="text" name="productSearchString" class="form-control" value=@ViewBag.ProductSearchString>
+		</label>
+	</div>
+	<div class="form-group">
+		<label class="form-label">
+			Customer
+			<input type="text" name="customerSearchString" class="form-control" value=@ViewBag.CustomerSearchString>
+		</label>
+	</div>
+	<div class="form-group">
+		<input type="submit" value="Search" class="btn btn-secondary" />
+	</div>
+	<div class="form-group">
+		@Html.ActionLink(ViewBag.ShowCompleteToggle=="yes"? "Show Complete": "Hide Complete", "Index", new { sortOrder=ViewBag.CurrentSort, showComplete = ViewBag.ShowCompleteToggle, productSearchString = ViewBag.ProductSearchString, customerSearchString = ViewBag.CustomerSearchString})
+	</div>
+</form>
+</div>
 <table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.ActionLink(Html.DisplayNameFor(model => model.Product), "Index", new { sortOrder = ViewBag.ProductSortToggle, showComplete=ViewBag.ShowComplete})
-            </th>
-            <th>
-                @Html.ActionLink(Html.DisplayNameFor(model => model.Customer), "Index", new { sortOrder = ViewBag.CustomerSortToggle, showComplete=ViewBag.ShowComplete})
-            </th>
-            <th>
-                @Html.ActionLink(Html.DisplayNameFor(model => model.Quantity), "Index", new { sortOrder = ViewBag.QuantitySortToggle, showComplete=ViewBag.ShowComplete})
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Product.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.Username)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-            </td>
-        </tr>
-}
-    </tbody>
+	<thead>
+		<tr>
+			<th>
+				@Html.ActionLink(Html.DisplayNameFor(model => model.Product), "Index", new { sortOrder = ViewBag.ProductSortToggle, showComplete=ViewBag.ShowComplete, productSearchString = ViewBag.ProductSearchString, customerSearchString = ViewBag.CustomerSearchString})
+			</th>
+			<th>
+				@Html.ActionLink(Html.DisplayNameFor(model => model.Customer), "Index", new { sortOrder = ViewBag.CustomerSortToggle, showComplete=ViewBag.ShowComplete, productSearchString = ViewBag.ProductSearchString, customerSearchString = ViewBag.CustomerSearchString})
+			</th>
+			<th>
+				@Html.ActionLink(Html.DisplayNameFor(model => model.Quantity), "Index", new { sortOrder = ViewBag.QuantitySortToggle, showComplete=ViewBag.ShowComplete, productSearchString = ViewBag.ProductSearchString, customerSearchString = ViewBag.CustomerSearchString})
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Status)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Product.Title)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Customer.FullName)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Quantity)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Status)
+				</td>
+				<td>
+					@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+					@Html.ActionLink("Details", "Details", new { id=item.Id }) |
+					@Html.ActionLink("Delete", "Delete", new { id=item.Id })
+				</td>
+			</tr>
+		}
+	</tbody>
 </table>
+@Html.ActionLink("Previous Page", "Index", new { sortOrder=ViewBag.CurrentSort, showComplete = ViewBag.ShowCompleteToggle, productSearchString = ViewBag.ProductSearchString, customerSearchString = ViewBag.CustomerSearchString, page = ViewBag.PreviousPage}, new { @class="btn btn-primary", style=ViewBag.FirstPage ? "display: none" : "" })
+@Html.ActionLink("Next Page", "Index", new { sortOrder=ViewBag.CurrentSort, showComplete = ViewBag.ShowCompleteToggle, productSearchString = ViewBag.ProductSearchString, customerSearchString = ViewBag.CustomerSearchString, page = ViewBag.NextPage}, new { @class="btn btn-primary", style=ViewBag.LastPage ? "display: none" : "" })

@@ -21,15 +21,19 @@ namespace Shop.Web.Controllers
         }
 
         // GET: ProductController
-        public ActionResult Index(string sortOrder, string showUnavailiable)
+        public ActionResult Index(string sortOrder, string showUnavailiable, string titleSearchString, string categorySearchString, int? page)
         {
-            var products = _productService.GetAll();
+            var products = _productService.GetAll().Where(x => x.Title.Contains(string.IsNullOrEmpty(titleSearchString) ? "" : titleSearchString) &&
+                                                          x.Category.Title.Contains(string.IsNullOrEmpty(categorySearchString) ? "" : categorySearchString) &&
+                                                          x.Category.Status==CategoryStatus.Enabled);
 
             ViewBag.NameSortToggle = string.IsNullOrEmpty(sortOrder) ? "nameDesc" : "";
             ViewBag.CategorySortToggle = sortOrder == "cat" ? "catDesc" : "cat";
             ViewBag.ShowUnavailiableToggle = string.IsNullOrEmpty(showUnavailiable) ? "yes" : "";
             ViewBag.CurrentSort = sortOrder;
             ViewBag.ShowUnavailiable = showUnavailiable;
+            ViewBag.TitleSearchString = titleSearchString;
+            ViewBag.CategorySearchString = categorySearchString;
 
             switch (showUnavailiable)
             {
@@ -54,6 +58,35 @@ namespace Shop.Web.Controllers
                     products = products.OrderBy(x => x.Title);
                     break;
             }
+
+            var numberOfProducts = products.Count();
+
+            var pageSize = 10;
+            var pageNumber = (page ?? 0);
+            products = products.Skip(pageSize * pageNumber).Take(pageSize);
+
+            ViewBag.CurrentPage = pageNumber;
+            if (pageSize * (pageNumber + 1) < numberOfProducts)
+            {
+                ViewBag.NextPage = pageNumber + 1;
+                ViewBag.LastPage = false;
+            }
+            else
+            {
+                ViewBag.NextPage = pageNumber;
+                ViewBag.LastPage = true;
+            }
+            if (pageNumber > 0)
+            {
+                ViewBag.PreviousPage = pageNumber - 1;
+                ViewBag.FirstPage = false;
+            }
+            else
+            {
+                ViewBag.PreviousPage = 0;
+                ViewBag.FirstPage = true;
+            }
+
             return View(products);
         }
 
@@ -66,7 +99,7 @@ namespace Shop.Web.Controllers
         // GET: ProductController/Create
         public ActionResult Create()
         {
-            ViewData["Categories"] = new SelectList(_categoryService.GetAll(), "Id", "Title");
+            ViewData["Categories"] = new SelectList(_categoryService.GetAll().Where(x => x.Status==CategoryStatus.Enabled).OrderBy(x => x.Title), "Id", "Title");
             return View();
         }
 
@@ -84,7 +117,7 @@ namespace Shop.Web.Controllers
         public ActionResult Edit(int id)
         {
             var product = _productService.GetById(id);
-            ViewData["Categories"] = new SelectList(_categoryService.GetAll(), "Id", "Title", product.CategoryId);
+            ViewData["Categories"] = new SelectList(_categoryService.GetAll().Where(x => x.Status == CategoryStatus.Enabled).OrderBy(x => x.Title), "Id", "Title", product.CategoryId);
             return View(product);
         }
 

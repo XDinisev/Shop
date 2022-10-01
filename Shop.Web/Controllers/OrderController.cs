@@ -20,9 +20,9 @@ namespace Shop.Web.Controllers
             _customerService = customerService;
         }
         // GET: OrderController
-        public ActionResult Index(string sortOrder, string showComplete)
+        public ActionResult Index(string sortOrder, string showComplete, string productSearchString, string customerSearchString, int? page)
         {
-            var orders = _orderService.GetAll();
+            var orders = _orderService.GetAll().Where(x => x.Product.Title.Contains(string.IsNullOrEmpty(productSearchString) ? "" : productSearchString) && x.Customer.Username.Contains(string.IsNullOrEmpty(customerSearchString) ? "" : customerSearchString));
 
             ViewBag.CustomerSortToggle = string.IsNullOrEmpty(sortOrder) ? "custDesc" : "";
             ViewBag.ProductSortToggle = sortOrder == "prod" ? "prodDesc" : "prod";
@@ -30,7 +30,8 @@ namespace Shop.Web.Controllers
             ViewBag.ShowCompleteToggle = string.IsNullOrEmpty(showComplete) ? "yes" : "";
             ViewBag.CurrentSort = sortOrder;
             ViewBag.ShowComplete = showComplete;
-
+            ViewBag.ProductSearchString = productSearchString;
+            ViewBag.CustomerSearchString = customerSearchString;
 
             switch (showComplete)
             {
@@ -62,14 +63,44 @@ namespace Shop.Web.Controllers
                     break;
             }
 
+            var numberOfOrders = orders.Count();
+
+            var pageSize = 10;
+            var pageNumber = (page ?? 0);
+            orders = orders.Skip(pageSize * pageNumber).Take(pageSize);
+
+            ViewBag.CurrentPage = pageNumber;
+            if (pageNumber > 0)
+            {
+                ViewBag.PreviousPage = pageNumber - 1;
+                ViewBag.FirstPage = false;
+            }
+            else
+            {
+                ViewBag.PreviousPage = 0;
+                ViewBag.FirstPage = true;
+            }
+
+            if (pageSize * (pageNumber + 1) < numberOfOrders)
+            {
+                ViewBag.NextPage = pageNumber + 1;
+                ViewBag.LastPage = false;
+            }
+            else
+            {
+                ViewBag.NextPage = pageNumber;
+                ViewBag.LastPage = true;
+            }
+
+
             return View(orders);
         }
 
         // GET: OrderController/Create
         public ActionResult Create()
         {
-            ViewData["Products"] = new SelectList(_productService.GetAll(), "Id", "Title");
-            ViewData["Customers"] = new SelectList(_customerService.GetAll(), "Id", "Username");
+            ViewData["Products"] =  new SelectList(_productService.GetAll().Where(x => x.Status==ProductStatus.Availiable).OrderBy(x => x.Title), "Id", "Title");
+            ViewData["Customers"] = new SelectList(_customerService.GetAll().OrderBy(x => x.FullName), "Id", "FullName");
             return View();
         }
 
@@ -93,8 +124,8 @@ namespace Shop.Web.Controllers
         public ActionResult Edit(int id)
         {
             var order = _orderService.GetById(id);
-            ViewData["Products"] = new SelectList(_productService.GetAll(), "Id", "Title", order.ProductId);
-            ViewData["Customers"] = new SelectList(_customerService.GetAll(), "Id", "Username", order.CustomerId);
+            ViewData["Products"] = new SelectList(_productService.GetAll().Where(x => x.Status == ProductStatus.Availiable).OrderBy(x => x.Title), "Id", "Title", order.ProductId);
+            ViewData["Customers"] = new SelectList(_customerService.GetAll().OrderBy(x => x.FullName), "Id", "FullName", order.CustomerId);
             return View(order);
         }
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FluentValidation.Attributes;
 using Shop.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
 
@@ -19,11 +18,6 @@ namespace Shop.Business.Models
         [Required(ErrorMessage = "Default Status is required")]
         [Display(Name = "Default")]
         public IsDefault IsDefault { get; set; }
-    }
-    public class CategoryProductsViewModel
-    {
-        [Required(ErrorMessage = "Name is required")]
-        public string Title { get; set; }
-        public List<Product> Products { get; set; }
+        public int Quantity { get; set; }
     }
 }

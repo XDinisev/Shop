@@ -21,7 +21,8 @@ namespace Shop.Business.Mapper
                     Email = customer.Email,
                     Username = customer.Username,
                     Password = customer.Password,
-                    UserType = customer.UserType
+                    UserType = customer.UserType,
+                    FullName = customer.FirstName + " " + customer.LastName
                 };
             else
                 return null;

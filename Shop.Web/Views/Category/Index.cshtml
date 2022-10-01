@@ -9,18 +9,40 @@
 <p>
 	<a asp-action="Create">Create New Category</a>
 </p>
-@Html.ActionLink("Show Disabled", "Index", new { sortOrder=ViewBag.CurrentSort, showDisabled = ViewBag.ShowDisabledToggle })
+<button style="display: block; margin-top: 1em; margin-bottom: 1em;" class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#filtering">Filtering</button>
+<div id="filtering" class="collapse">
+	<form asp-controller="Category" asp-action="Index" method="get" class="col-md-4">
+		<input hidden type="text" name="sortOrder" class="form-control" value=@ViewBag.CurrentSort>
+		<input hidden type="text" name="showDisabled" class="form-control" value=@ViewBag.ShowDisabled>
+		<div class="form-group">
+			<label class="form-label">
+				Title
+				<input type="text" name="titleSearchString" class="form-control" value=@ViewBag.TitleSearchString>
+			</label>
+		</div>
+		<div class="form-group">
+			<input type="submit" value="Search" class="btn btn-secondary" />
+		</div>
+		<div class="form-group">
+			@Html.ActionLink(ViewBag.ShowDisabledToggle=="yes"? "Show Disabled": "Hide Disabled", "Index", new { sortOrder=ViewBag.CurrentSort, showDisabled = ViewBag.ShowDisabledToggle, titleSearchString = ViewBag.TitleSearchString})
+		</div>
+	</form>
+</div>
+
 <table class="table">
 	<thead>
 		<tr>
 			<th>
-				@Html.ActionLink(Html.DisplayNameFor(model => model.Title), "Index", new { sortOrder = ViewBag.NameSortToggle, showDisabled=ViewBag.ShowDisabled})
+				@Html.ActionLink(Html.DisplayNameFor(model => model.Title), "Index", new { sortOrder = ViewBag.NameSortToggle, showDisabled=ViewBag.ShowDisabled, titleSearchString = ViewBag.TitleSearchString})
 			</th>
 			<th>
 				@Html.DisplayNameFor(model => model.Status)
 			</th>
 			<th>
 				@Html.DisplayNameFor(model => model.IsDefault)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Quantity)
 			</th>
 			<th></th>
 		</tr>
@@ -39,12 +61,17 @@
 					@Html.DisplayFor(modelItem => item.IsDefault)
 				</td>
 				<td>
+					@Html.DisplayFor(modelItem => item.Quantity)
+				</td>
+				<td>
 					@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
 					@Html.ActionLink("Details", "Details", new { id=item.Id }) |
-					@Html.ActionLink("Delete", "Delete", new { id=item.Id }) |
+					@Html.ActionLink("Delete", "Delete", new { id=item.Id })
 					@*@Html.ActionLink("Products", "ListProducts", new { id=item.Id })*@
 				</td>
 			</tr>
 		}
 	</tbody>
 </table>
+@Html.ActionLink("Previous Page", "Index", new { sortOrder = ViewBag.CurrentSort, showDisabled=ViewBag.ShowDisabled, titleSearchString = ViewBag.TitleSearchString, page = ViewBag.PreviousPage}, new { @class="btn btn-primary", style=ViewBag.FirstPage ? "display: none" : "" })
+@Html.ActionLink("Next Page", "Index", new { sortOrder = ViewBag.CurrentSort, showDisabled=ViewBag.ShowDisabled, titleSearchString = ViewBag.TitleSearchString, page = ViewBag.NextPage}, new { @class="btn btn-primary", style=ViewBag.LastPage ? "display: none" : "" })

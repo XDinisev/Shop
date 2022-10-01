@@ -1,4 +1,5 @@
-﻿@model Shop.Business.Models.CustomerViewModel
+﻿@using Shop.Domain.Entities
+@model Shop.Business.Models.CustomerViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -39,7 +40,7 @@
             <div class="form-group">
                 <label asp-for="UserType" class="control-label"></label>
                 @Html.DropDownList("UserType",
-                                   new SelectList(Enum.GetValues(typeof(Shop.Domain.Entities.UserType))),
+                                   Html.GetEnumSelectList(typeof(UserType)),
                                    "Choose",
                                    new { @class = "form-control" } )
                 <span asp-validation-for="UserType" class="text-danger"></span>

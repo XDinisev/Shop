@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Shop.Business.Models;
 using Shop.Business.Services;
 using Shop.Domain.Entities;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Shop.Web.Controllers
@@ -15,14 +16,17 @@ namespace Shop.Web.Controllers
             _categoryService = categoryService;
         }
 
-        public IActionResult Index(string sortOrder, string showDisabled)
+        public IActionResult Index(string sortOrder, string showDisabled, string titleSearchString, int? page)
         {
-            var categories = _categoryService.GetAll();
+            var categories = _categoryService.GetAll().Where(x => x.Title.Contains(string.IsNullOrEmpty(titleSearchString) ? "" : titleSearchString));
+
             ViewBag.NameSortToggle = string.IsNullOrEmpty(sortOrder) ? "nameDesc" : "";
             ViewBag.ShowDisabledToggle = string.IsNullOrEmpty(showDisabled) ? "yes" : "";
             ViewBag.CurrentSort = sortOrder;
             ViewBag.ShowDisabled = showDisabled;
-            switch(showDisabled)
+            ViewBag.TitleSearchString = titleSearchString;
+            page = page ?? 0;
+            switch (showDisabled)
             {
                 case "yes":
                     break;
@@ -39,6 +43,36 @@ namespace Shop.Web.Controllers
                     categories = categories.OrderBy(x => x.Title);
                     break;
             }
+
+            var numberOfCategories = categories.Count();
+
+            var pageSize = 10;
+            var pageNumber = (page ?? 0);
+            categories = categories.Skip(pageSize * pageNumber).Take(pageSize);
+
+            ViewBag.CurrentPage = pageNumber;
+            if(pageNumber>0)
+            {
+                ViewBag.PreviousPage = pageNumber-1;
+                ViewBag.FirstPage = false;
+            }
+            else
+            {
+                ViewBag.PreviousPage = 0;
+                ViewBag.FirstPage = true;
+            }
+
+            if(pageSize * (pageNumber + 1) < numberOfCategories)
+            {
+                ViewBag.NextPage = pageNumber + 1;
+                ViewBag.LastPage = false;
+            }
+            else
+            {
+                ViewBag.NextPage = pageNumber;
+                ViewBag.LastPage = true;
+            }
+
             return View(categories);
         }
 

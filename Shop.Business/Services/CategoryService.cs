@@ -15,7 +15,6 @@ namespace Shop.Business.Services
         void Delete(int id);
         CategoryViewModel GetById(int id);
         IEnumerable<CategoryViewModel> GetAll();
-        IEnumerable<ProductViewModel> GetProducts(int id);
     }
     public class CategoryService : ICategoryService
     {
@@ -30,6 +29,12 @@ namespace Shop.Business.Services
         public void Add(CategoryViewModel category)
         {
             _unitOfWork.BeginTransaction();
+
+
+            if(_categoryRepository.GetAll().Where(x => x.Title==category.Title).Any())
+			{
+                throw new Exception("Category already exists");
+			}
 
             // Ne moze disabled kategorija da e default
             if (category.Status != CategoryStatus.Enabled)
@@ -103,11 +108,6 @@ namespace Shop.Business.Services
             _unitOfWork.Commit();
 
             return allCategories;
-        }
-
-        public IEnumerable<ProductViewModel> GetProducts(int id)
-        {
-            throw new NotImplementedException();
         }
     }
 }

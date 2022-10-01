@@ -4,17 +4,15 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FluentValidation;
-using FluentValidation.Attributes;
 using Shop.Domain.Entities;
 
 namespace Shop.Business.Models
 {
-    [Validator(typeof(OrderViewModelValidator))]
     public class OrderViewModel
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "Quantity is required")]
+        [Range(1, int.MaxValue, ErrorMessage = "You can't order negative ammount!")]
         public int Quantity { get; set; }
         public DateTime Date { get; set; }
         public OrderStatus Status { get; set; }
@@ -26,13 +24,5 @@ namespace Shop.Business.Models
         [Display(Name = "Product")]
         public int ProductId { get; set; }
         public ProductViewModel Product { get; set; }
-    }
-
-    public class OrderViewModelValidator : AbstractValidator<OrderViewModel>
-    {
-        public OrderViewModelValidator()
-        {
-
-        }
     }
 }

@@ -14,14 +14,17 @@ namespace Shop.Web.Controllers
             _customerService = customerService;
         }
         // GET: CustomerController
-        public ActionResult Index(string sortOrder)
+        public ActionResult Index(string sortOrder, string firstNameSearchString, string lastNameSearchString, string usernameSearchString, int? page)
         {
-            var customers = _customerService.GetAll();
+            var customers = _customerService.GetAll().Where(x => x.FirstName.Contains(string.IsNullOrEmpty(firstNameSearchString) ? "" : firstNameSearchString) && x.LastName.Contains(string.IsNullOrEmpty(lastNameSearchString) ? "" : lastNameSearchString) && x.Username.Contains(string.IsNullOrEmpty(usernameSearchString) ? "" : usernameSearchString));
 
             ViewBag.FirstNameSortToggle = string.IsNullOrEmpty(sortOrder) ? "firstName" : "";
             ViewBag.LastNameSortToggle = sortOrder == "lastName" ? "lastNameDesc" : "lastName";
             ViewBag.UsernameSortToggle = sortOrder == "username" ? "usernameDesc" : "username";
             ViewBag.CurrentSort = sortOrder;
+            ViewBag.FirstNameSearchString = firstNameSearchString;
+            ViewBag.LastNameSearchString = lastNameSearchString;
+            ViewBag.UsernameSearchString = usernameSearchString;
 
             switch (sortOrder)
             {
@@ -43,6 +46,35 @@ namespace Shop.Web.Controllers
                 default:
                     customers = customers.OrderByDescending(x => x.FirstName);
                     break;
+            }
+
+            var numberOfCustomers = customers.Count();
+
+            var pageSize = 10;
+            var pageNumber = (page ?? 0);
+            customers = customers.Skip(pageSize * pageNumber).Take(pageSize);
+
+            ViewBag.CurrentPage = pageNumber;
+            if (pageNumber > 0)
+            {
+                ViewBag.PreviousPage = pageNumber - 1;
+                ViewBag.FirstPage = false;
+            }
+            else
+            {
+                ViewBag.PreviousPage = 0;
+                ViewBag.FirstPage = true;
+            }
+
+            if (pageSize * (pageNumber + 1) < numberOfCustomers)
+            {
+                ViewBag.NextPage = pageNumber + 1;
+                ViewBag.LastPage = false;
+            }
+            else
+            {
+                ViewBag.NextPage = pageNumber;
+                ViewBag.LastPage = true;
             }
 
             return View(customers);

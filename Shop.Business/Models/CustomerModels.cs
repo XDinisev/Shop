@@ -4,8 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FluentValidation;
-using FluentValidation.Attributes;
 using Shop.Domain.Entities;
 
 namespace Shop.Business.Models
@@ -13,6 +11,7 @@ namespace Shop.Business.Models
     public class CustomerViewModel
     {
         public virtual int Id { get; set; }
+        public virtual string FullName { get; set; }
         [Required(ErrorMessage = "First name is required")]
         [Display(Name ="First Name")]
         public virtual string FirstName { get; set; }

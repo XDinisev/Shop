@@ -1,4 +1,5 @@
-﻿@model Shop.Business.Models.OrderViewModel
+﻿@using Shop.Domain.Entities
+@model Shop.Business.Models.OrderViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -27,7 +28,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Quantity" class="control-label"></label>
-                <input asp-for="Quantity" class="form-control" />
+                <input asp-for="Quantity" class="form-control" min="1"/>
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -38,7 +39,7 @@
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
                 @Html.DropDownList("Status",
-                                   new SelectList(Enum.GetValues(typeof(Shop.Domain.Entities.OrderStatus))),
+                                   Html.GetEnumSelectList(typeof(OrderStatus)),
                                    new { @class = "form-control" })
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>

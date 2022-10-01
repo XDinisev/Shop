@@ -14,6 +14,7 @@ namespace Shop.Business.Mapper
                 Title = category.Title,
                 Status = category.Status,
                 IsDefault = category.IsDefault,
+                Quantity = category.Products.Count
             };
         }
     }
