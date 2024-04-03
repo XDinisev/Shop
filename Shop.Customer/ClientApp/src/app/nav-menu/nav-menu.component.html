@@ -1,11 +1,11 @@
 <header>
   <nav
-    class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
+    class="text-white navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
   >
-    <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">Shop.Customer</a>
+    <div class="text-white container">
+      <a class="text-white navbar-brand" [routerLink]="['/']">Shop.Customer</a>
       <button
-        class="navbar-toggler"
+        class="text-white navbar-toggler"
         type="button"
         data-toggle="collapse"
         data-target=".navbar-collapse"
@@ -13,27 +13,27 @@
         [attr.aria-expanded]="isExpanded"
         (click)="toggle()"
       >
-        <span class="navbar-toggler-icon"></span>
+        <span class="text-white navbar-toggler-icon"></span>
       </button>
       <div
-        class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
+        class="text-white navbar-collapse collapse d-sm-inline-flex justify-content-end"
         [ngClass]="{ show: isExpanded }"
       >
-        <ul class="navbar-nav flex-grow">
+        <ul class="text-white navbar-nav flex-grow">
           <li
-            class="nav-item"
+            class="text-white nav-item"
             [routerLinkActive]="['link-active']"
             [routerLinkActiveOptions]="{ exact: true }"
           >
-            <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
+            <a class="text-white nav-link text-dark" [routerLink]="['/']">Home</a>
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/counter']"
+          <li class="text-white nav-item" [routerLinkActive]="['link-active']">
+            <a class="text-white nav-link text-dark" [routerLink]="['/counter']"
               >Counter</a
             >
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/fetch-data']"
+          <li class="text-white nav-item" [routerLinkActive]="['link-active']">
+            <a class="text-white nav-link text-dark" [routerLink]="['/fetch-data']"
               >Fetch data</a
             >
           </li>

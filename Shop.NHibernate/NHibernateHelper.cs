@@ -31,13 +31,13 @@ namespace Shop.NHibernate.Repositories
 			{
                 _sessionFactory = Fluently.Configure()
                  .Database(MsSqlConfiguration.MsSql2012
-                    .ConnectionString("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Shop;Integrated Security=True"))
+                    .ConnectionString("Data Source=PC;Initial Catalog=Shop;Integrated Security=True"))
                  .Mappings(m => m.FluentMappings
                     .AddFromAssemblyOf<NHibernateHelper>())
-                 //.ExposeConfiguration(cfg => new SchemaUpdate(cfg)
-                 //.Execute(true, true))
-                 .ExposeConfiguration(cfg => new SchemaExport(cfg)
-                    .Execute(true, true, false))
+                 .ExposeConfiguration(cfg => new SchemaUpdate(cfg)
+                    .Execute(true, true))
+                 //.ExposeConfiguration(cfg => new SchemaExport(cfg)
+                 //   .Execute(true, true, false))
                  .BuildSessionFactory();
             }
             catch(Exception e)

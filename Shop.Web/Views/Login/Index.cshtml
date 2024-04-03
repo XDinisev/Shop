@@ -1,55 +1,33 @@
 ﻿@using Shop.Domain.Entities
-@model Shop.Business.Models.CategoryViewModel
+@model Shop.Business.Models.CustomerViewModel
 
 @{
 	ViewData["Title"] = "Create";
 }
 
-<h1>Create Category</h1>
+<h1 class="text-white text-white">Log in</h1>
 
 <hr />
 <div class="text-white row">
 	<div class="text-white col-md-4">
-		<form asp-action="Create">
+		<form asp-action="Login">
 			<div asp-validation-summary="ModelOnly" class="text-white text-danger"></div>
 			<div class="text-white form-group">
-				<label asp-for="Title" class="text-white control-label text-white"></label>
-				<input asp-for="Title" class="form-control" />
-				<span asp-validation-for="Title" class="text-white text-danger"></span>
+				<label asp-for="Username" class="text-white control-labe text-white"></label>
+				<input asp-for="Username" class=" form-control" />
+				<span asp-validation-for="Username" class="text-white text-danger"></span>
 			</div>
 			<div class="text-white form-group">
-				<label asp-for="Status" class="text-white control-label text-white"></label>
-
-				@Html.DropDownList("Status",
-				Html.GetEnumSelectList(typeof(CategoryStatus)),
-				"Choose",
-				new { @class = "form-control", @onchange="Change()"})
-
-
-				<span asp-validation-for="Status" class="text-white text-danger"></span>
-			</div>
-			<div class="text-white form-group">
-				<label asp-for="IsDefault" class="text-white control-label text-white"></label>
-
-				@Html.DropDownList("IsDefault",
-				Html.GetEnumSelectList(typeof(IsDefault)),
-				"Choose",
-				new { @class = "form-control"})
-
-				<span asp-validation-for="IsDefault" class="text-white text-danger"></span>
+				<label asp-for="Password" class="text-white control-label text-white"></label>
+				<input asp-for="Password" class=" form-control" />
+				<span asp-validation-for="Password" class="text-white text-danger"></span>
 			</div>
 			<br />
-
-			<div class="text-white form-group">
+			<div class="text-white form-group text-white">
 				<input type="submit" value="Create" class="text-white btn btn-primary" />
 			</div>
 		</form>
 	</div>
-</div>
-
-
-<div>
-	<a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

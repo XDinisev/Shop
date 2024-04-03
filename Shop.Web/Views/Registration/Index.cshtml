@@ -1,0 +1,50 @@
+﻿@using Shop.Domain.Entities
+@model Shop.Business.Models.CustomerViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1 class="text-white text-white">Create Your Account</h1>
+
+<hr />
+<div class="text-white row">
+    <div class="text-white col-md-4">
+        <form asp-action="Register">
+            <div asp-validation-summary="ModelOnly" class="text-white text-danger text-white"></div>
+            <div class="text-white form-group text-white">
+                <label asp-for="FirstName" class="text-white control-label"></label>
+                <input asp-for="FirstName" class=" form-control" />
+                <span asp-validation-for="FirstName" class="text-white text-danger text-white"></span>
+            </div>
+            <div class="text-white form-group text-white">
+                <label asp-for="LastName" class="text-white control-label"></label>
+                <input asp-for="LastName" class=" form-control" />
+                <span asp-validation-for="LastName" class="text-white text-danger text-white"></span>
+            </div>
+            <div class="text-white form-group text-white">
+                <label asp-for="Username" class="text-white control-label"></label>
+                <input asp-for="Username" class=" form-control" />
+                <span asp-validation-for="Username" class="text-white text-danger text-white"></span>
+            </div>
+            <div class="text-white form-group text-white">
+                <label asp-for="Password" class="text-white control-label"></label>
+                <input asp-for="Password" class=" form-control" />
+                <span asp-validation-for="Password" class="text-white text-danger text-white"></span>
+            </div>
+            <div class="text-white form-group text-white">
+                <label asp-for="Email" class="text-white control-label"></label>
+                <input asp-for="Email" class=" form-control" />
+                <span asp-validation-for="Email" class="text-white text-danger text-white"></span>
+            </div>
+            <br />
+            <div class="text-white form-group text-white">
+                <input type="submit" value="Register" class="text-white btn btn-primary text-white" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

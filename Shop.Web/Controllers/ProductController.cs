@@ -26,7 +26,7 @@ namespace Shop.Web.Controllers
             var products = _productService.GetAll().Where(x => x.Title.Contains(string.IsNullOrEmpty(titleSearchString) ? "" : titleSearchString) &&
                                                           x.Category.Title.Contains(string.IsNullOrEmpty(categorySearchString) ? "" : categorySearchString) &&
                                                           x.Category.Status==CategoryStatus.Enabled);
-
+            var a = products.ToList();
             ViewBag.NameSortToggle = string.IsNullOrEmpty(sortOrder) ? "nameDesc" : "";
             ViewBag.CategorySortToggle = sortOrder == "cat" ? "catDesc" : "cat";
             ViewBag.ShowUnavailiableToggle = string.IsNullOrEmpty(showUnavailiable) ? "yes" : "";
@@ -61,7 +61,7 @@ namespace Shop.Web.Controllers
 
             var numberOfProducts = products.Count();
 
-            var pageSize = 10;
+            var pageSize = 12;
             var pageNumber = (page ?? 0);
             products = products.Skip(pageSize * pageNumber).Take(pageSize);
 

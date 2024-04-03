@@ -8,35 +8,36 @@
 <h1>Edit Category</h1>
 
 <hr />
-<div class="row" onload="Change()">
-	<div class="col-md-4">
+<div class="text-white row" onload="Change()">
+	<div class="text-white col-md-4">
 		<form asp-action="Edit">
-			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-			<div class="form-group">
-				<label asp-for="Title" class="control-label"></label>
+			<div asp-validation-summary="ModelOnly" class="text-white text-danger"></div>
+			<div class="text-white form-group">
+				<label asp-for="Title" class="text-white control-label text-white"></label>
 				<input asp-for="Title" class="form-control" />
-				<span asp-validation-for="Title" class="text-danger"></span>
+				<span asp-validation-for="Title" class="text-white text-danger"></span>
 			</div>
-			<div class="form-group">
-				<label asp-for="Status" class="control-label"></label>
+			<div class="text-white form-group">
+				<label asp-for="Status" class="text-white control-label text-white"></label>
 
 				@Html.DropDownList("Status",
 				Html.GetEnumSelectList(typeof(CategoryStatus)),
 				new { @class = "form-control", @onchange="Change()"})
 
-				<span asp-validation-for="Status" class="text-danger"></span>
+				<span asp-validation-for="Status" class="text-white text-danger"></span>
 			</div>
-			<div class="form-group">
-				<label asp-for="IsDefault" class="control-label"></label>
+			<div class="text-white form-group">
+				<label asp-for="IsDefault" class="text-white control-label text-white"></label>
 
 				@Html.DropDownList("IsDefault",
 				Html.GetEnumSelectList(typeof(IsDefault)),
 				new { @class = "form-control"})
 
-				<span asp-validation-for="IsDefault" class="text-danger"></span>
+				<span asp-validation-for="IsDefault" class="text-white text-danger"></span>
 			</div>
-			<div class="form-group">
-				<input type="submit" value="Save" class="btn btn-primary" />
+			<br />
+			<div class="text-white form-group">
+				<input type="submit" value="Save" class="text-white btn btn-primary" />
 			</div>
 		</form>
 	</div>

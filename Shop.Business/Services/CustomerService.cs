@@ -13,7 +13,8 @@ namespace Shop.Business.Services
         void Add(CustomerViewModel customer);
         void Update(CustomerViewModel customer);
         void Delete(int id);
-        bool Authorise(int id, string password);
+        CustomerViewModel Authorise(string username, string password);
+        void Logout();
         CustomerViewModel GetById(int id);
         IEnumerable<CustomerViewModel> GetAll();
     }
@@ -21,10 +22,12 @@ namespace Shop.Business.Services
     {
         private readonly ICustomerRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
-        public CustomerService(ICustomerRepository repository, IUnitOfWork unitOfWork)
+        private readonly CheckService _checkService;
+        public CustomerService(ICustomerRepository repository, IUnitOfWork unitOfWork, CheckService checkService)
         {
             _repository = repository;
             _unitOfWork = unitOfWork;
+            _checkService = checkService;
         }
 
         public void Add(CustomerViewModel customer)
@@ -80,6 +83,8 @@ namespace Shop.Business.Services
             _repository.Update(originalCustomer);
 
             _unitOfWork.Commit();
+
+            CheckService.CurrentlyLoggedIn = customer;
         }
 
         public CustomerViewModel GetById(int id)
@@ -93,17 +98,29 @@ namespace Shop.Business.Services
             return customer;
         }
 
-        public bool Authorise(int id, string password)
+        public CustomerViewModel Authorise(string username, string password)
         {
             _unitOfWork.BeginTransaction();
 
-            bool authorised = false;
-            if (_repository.GetById(id).Password == password)
-                authorised = true;
+            var user = _repository.GetAll().FirstOrDefault(u => u.Username == username && u.Password == password)?.MapToViewModel();
 
             _unitOfWork.Commit();
 
-            return authorised;
+
+            if(user == null)
+            {
+                throw new Exception("Error username or password!");
+            }
+
+            CheckService.CurrentlyLoggedIn = user;
+
+            return user;
+        }
+        public void Logout()
+        {
+            CheckService.CurrentlyLoggedIn = null;
+
+            return;
         }
 
         public IEnumerable<CustomerViewModel> GetAll()

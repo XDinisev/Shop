@@ -1,53 +1,60 @@
 ﻿@model Shop.Business.Models.ProductViewModel
 
 @{
-    ViewData["Title"] = "Create";
+	ViewData["Title"] = "Create";
 }
 
 <h1>Add Product</h1>
 
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                @Html.DropDownList("Status",
-                                   Html.GetEnumSelectList(typeof(Shop.Domain.Entities.ProductStatus)),
-                                   "Choose",
-                                   new { @class = "form-control"})
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                @Html.DropDownList("CategoryId",
-                                   (IEnumerable<SelectListItem>) ViewData["Categories"],
-                                   "Choose",
-                                   new { @class = "form-control"})
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+<div class="text-white row">
+	<div class="text-white col-md-4">
+		<form asp-action="Create" enctype="multipart/form-data"> 
+			<div asp-validation-summary="ModelOnly" class="text-white text-danger"></div>
+			<div class="text-white form-group">
+				<label asp-for="Title" class="text-white control-label"></label>
+				<input asp-for="Title" class=" form-control" />
+				<span asp-validation-for="Title" class="text-white text-danger"></span>
+			</div>
+			<div class="text-white form-group">
+				<label asp-for="Description" class="text-white control-label"></label>
+				<input asp-for="Description" class=" form-control" />
+				<span asp-validation-for="Description" class="text-white text-danger"></span>
+			</div>
+			<div class="text-white form-group">
+				<label asp-for="Status" class="text-white control-label"></label>
+				@Html.DropDownList("Status",
+				Html.GetEnumSelectList(typeof(Shop.Domain.Entities.ProductStatus)),
+				"Choose",
+				new { @class = "form-control"})
+				<span asp-validation-for="Status" class="text-white text-danger"></span>
+			</div>
+			<div class="text-white form-group">
+				<label asp-for="CategoryId" class="text-white control-label"></label>
+				@Html.DropDownList("CategoryId",
+				(IEnumerable<SelectListItem>) ViewData["Categories"],
+				"Choose",
+				new { @class = "form-control"})
+				<span asp-validation-for="CategoryId" class="text-white text-danger"></span>
+			</div>
+			<div class="text-white form-group">
+				<label asp-for="Picture" class="text-white control-label"></label>
+				<input asp-for="Picture" class="form-control" />
+			</div>
+			<br />
+			<div class="text-white form-group">
+				<input type="submit" value="Create" class="text-white btn btn-primary" />
+			</div>
+		</form>
+	</div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+	<a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+	}

@@ -4,40 +4,40 @@
 	ViewData["Title"] = "List";
 }
 
-<h1>Customers</h1>
+<h1 class="text-white text-white">Customers</h1>
 
 <p>
 	<a asp-action="Create">Create New Customer</a>
 </p>
 
-<button style="display: block; margin-top: 1em; margin-bottom: 1em;" class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#filtering">Filtering</button>
-<div id="filtering" class="collapse">
-	<form asp-controller="Customer" asp-action="Index" method="get" class="col-md-4">
-		<input hidden type="text" name="sortOrder" class="form-control" value=@ViewBag.CurrentSort>
-		<div class="form-group">
-			<label class="form-label">
+<button style="display: block; margin-top: 1em; margin-bottom: 1em;" class="text-white btn btn-secondary" type="button" data-toggle="collapse" data-target="#filtering">Filtering</button>
+<div id="filtering" class="text-white collapse">
+	<form asp-controller="Customer" asp-action="Index" method="get" class="text-white col-md-4">
+		<input hidden type="text" name="sortOrder" class=" form-control" value=@ViewBag.CurrentSort>
+		<div class="text-white form-group">
+			<label class="text-white form-label">
 				First Name
-				<input type="text" name="firstNameSearchString" class="form-control" value=@ViewBag.FirstNameSearchString>
+				<input type="text" name="firstNameSearchString" class=" form-control" value=@ViewBag.FirstNameSearchString>
 			</label>
 		</div>
-		<div class="form-group">
-			<label class="form-label">
+		<div class="text-white form-group">
+			<label class="text-white form-label">
 				Last Name
-				<input type="text" name="lastNameSearchString" class="form-control" value=@ViewBag.LastNameSearchString>
+				<input type="text" name="lastNameSearchString" class=" form-control" value=@ViewBag.LastNameSearchString>
 			</label>
 		</div>
-		<div class="form-group">
-			<label class="form-label">
+		<div class="text-white form-group">
+			<label class="text-white form-label">
 				Username
-				<input type="text" name="usernameSearchString" class="form-control" value=@ViewBag.UsernameSearchString>
+				<input type="text" name="usernameSearchString" class=" form-control" value=@ViewBag.UsernameSearchString>
 			</label>
 		</div>
-		<div class="form-group">
-			<input type="submit" value="Search" class="btn btn-secondary" />
+		<div class="text-white form-group">
+			<input type="submit" value="Search" class="text-white btn btn-secondary" />
 		</div>
 	</form>
 </div>
-<table class="table">
+<table class="text-white table">
 	<thead>
 		<tr>
 			<th>
@@ -56,13 +56,13 @@
 		@foreach (var item in Model)
 		{
 			<tr>
-				<td>
+				<td class="text-white text-white">
 					@Html.DisplayFor(modelItem => item.FirstName)
 				</td>
-				<td>
+				<td class="text-white text-white">
 					@Html.DisplayFor(modelItem => item.LastName)
 				</td>
-				<td>
+				<td class="text-white text-white">
 					@Html.DisplayFor(modelItem => item.Username)
 				</td>
 				<td>
@@ -74,5 +74,5 @@
 		}
 	</tbody>
 </table>
-@Html.ActionLink("Previous Page", "Index", new { sortOrder = ViewBag.FirstNameSortToggle, firstNameSearchString = ViewBag.FirstNameSearchString, lastNameSearchString = ViewBag.LastNameSearchString, usernameSearchString = ViewBag.UsernameSearchString, page = ViewBag.PreviousPage}, new { @class="btn btn-primary", style=ViewBag.FirstPage ? "display: none" : "" })
-@Html.ActionLink("Next Page", "Index", new { sortOrder = ViewBag.FirstNameSortToggle, firstNameSearchString = ViewBag.FirstNameSearchString, lastNameSearchString = ViewBag.LastNameSearchString, usernameSearchString = ViewBag.UsernameSearchString, page = ViewBag.NextPage}, new { @class="btn btn-primary", style=ViewBag.LastPage ? "display: none" : "" })
+@Html.ActionLink("Previous Page", "Index", new { sortOrder = ViewBag.FirstNameSortToggle, firstNameSearchString = ViewBag.FirstNameSearchString, lastNameSearchString = ViewBag.LastNameSearchString, usernameSearchString = ViewBag.UsernameSearchString, page = ViewBag.PreviousPage}, new { @class="text-white btn btn-primary", style=ViewBag.FirstPage ? "display: none" : "" })
+@Html.ActionLink("Next Page", "Index", new { sortOrder = ViewBag.FirstNameSortToggle, firstNameSearchString = ViewBag.FirstNameSearchString, lastNameSearchString = ViewBag.LastNameSearchString, usernameSearchString = ViewBag.UsernameSearchString, page = ViewBag.NextPage}, new { @class="text-white btn btn-primary", style=ViewBag.LastPage ? "display: none" : "" })

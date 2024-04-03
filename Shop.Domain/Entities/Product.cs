@@ -13,7 +13,7 @@ namespace Shop.Domain.Entities
         {
 
         }
-        public Product(int id, string title, ProductStatus status, string description, IList<Order> orders, Category category)
+        public Product(int id, string title, ProductStatus status, string description, IList<Order> orders, Category category, string picture)
         {
             Id = id;
             Title = title;
@@ -21,6 +21,7 @@ namespace Shop.Domain.Entities
             Description = description;
             Orders = orders;
             Category = category;
+            Picture = picture;
         }
 
         public virtual int Id { get; set; }
@@ -29,6 +30,7 @@ namespace Shop.Domain.Entities
         public virtual string Description { get; set; }
         public virtual Category Category { get; set; }
         public virtual IList<Order> Orders { get; set; } = new List<Order>();
+        public virtual string Picture { get; set; }
     }
     public enum ProductStatus
     {

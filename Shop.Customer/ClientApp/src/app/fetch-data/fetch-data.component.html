@@ -2,16 +2,21 @@
 
 <p>This component demonstrates fetching data from the server.</p>
 
+
 <p *ngIf="!forecasts"><em>Loading...</em></p>
-<div *ngFor="let product of forecasts">
-  <div class="card" style="width: 18rem;">
-    <div class="card-body">
-      <h5 class="card-title">{{product.title}}</h5>
-      <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-      <p class="card-text">{{product.description}}</p>
-      <a href="#" class="card-link">Add to cart</a>
-      <a href="#" class="card-link">Another link</a>
+
+<div class="text-white row">
+  <div *ngFor="let product of forecasts" class="text-white col-sm-4">
+    <div class="text-white card" style="width: 18rem;">
+      <div class="text-white card-body">
+        <h5 class="text-white card-title">{{product.title}}</h5>
+        <h6 class="text-white card-subtitle mb-2 text-muted">Card subtitle</h6>
+        <p class="text-white card-text">{{product.description}}</p>
+        <a href="#" class="text-white card-link">Add to cart</a>
+        <a href="#" class="text-white card-link">Another link</a>
+      </div>
     </div>
+    <br />
   </div>
 </div>
 <!-- <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="forecasts">

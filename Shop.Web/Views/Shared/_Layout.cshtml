@@ -1,60 +1,88 @@
-﻿<!DOCTYPE html>
+﻿@using Shop.Business.Services
+@using Shop.Business.Models
+@inject CheckService checkService
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Shop.Web</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - Shop.Web</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body onload="Change()">
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Shop</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="Index">Categories</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Products</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Index">Orders</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="Index">Customers</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+<body onload="Change()" class="text-white bg-dark bg-gradient">
+	<header>
+		<nav class="text-white navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-transparent border-bottom box-shadow mb-3 text-white">
+			<div class="text-white container">
+				<a class="text-white navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">Shop</a>
+				<button class="text-white navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+						aria-expanded="false" aria-label="Toggle navigation">
+					<span class="text-white navbar-toggler-icon"></span>
+				</button>
+				<div class="text-white navbar-collapse collapse d-sm-inline-flex justify-content-between">
+					<ul class="text-white navbar-nav flex-grow-1">
+						<li class="text-white nav-item">
+							<a class="text-white nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+						</li>
+						<li class="text-white nav-item">
+							<a class="text-white nav-link text-white" asp-area="" asp-controller="Category" asp-action="Index">Categories</a>
+						</li>
+						<li class="text-white nav-item">
+							<a class="text-white nav-link text-white" asp-area="" asp-controller="Product" asp-action="Index">Products</a>
+						</li>
+						@if (CheckService.CurrentlyLoggedIn != null)
+						{
+							<li class="text-white nav-item">
+								<a class="text-white nav-link text-white" asp-area="" asp-controller="Order" asp-action="Index">Orders</a>
+							</li>
+							@if (CheckService.CurrentlyLoggedIn.UserType == Shop.Domain.Entities.UserType.Internal)
+							{
+								<li class="text-white nav-item">
+									<a class="text-white nav-link text-white" asp-area="" asp-controller="Customer" asp-action="Index">Customers</a>
+								</li>
+							}
+							<li class="text-white text-decoration-none nav-item text-white ms-auto">
+								@Html.ActionLink("Account", "Edit", "Customer", new { id=CheckService.CurrentlyLoggedIn.Id },new {@class="text-white nav-link text-white", style="text-decoration:none;"})
+							</li>
+							<li class="text-white text-decoration-none nav-item text-white">
+								@Html.ActionLink("Log out", "Logout", "Login", new { id=CheckService.CurrentlyLoggedIn.Id },new {@class="text-white nav-link text-white", style="text-decoration:none;"})
+							</li>
+						}
+						else
+						{
+							<div class="text-white ms-auto">
+								<li class="text-white nav-item">
+									<a class="text-white nav-link text-white" asp-area="" asp-controller="Login" asp-action="Index">Log in</a>
+								</li>
+							</div>
+							<div class="text-white ">
+								<li class="text-white nav-item">
+									<a class="text-white nav-link text-white" asp-area="" asp-controller="Registration" asp-action="Index">Register</a>
+								</li>
+							</div>
+						}
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<div class="text-white container">
+		<main role="main" class="text-white pb-3">
+			@RenderBody()
+		</main>
+		<br />
+	</div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - Shop - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+	<footer class="text-white border-top footer text-muted">
+		<div class="text-white container">
+			&copy; 2022 - Shop - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+		</div>
+	</footer>
+	<script src="~/lib/jquery/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="~/lib/bootstrap/js/bootstrap.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

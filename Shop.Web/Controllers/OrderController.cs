@@ -33,14 +33,14 @@ namespace Shop.Web.Controllers
             ViewBag.ProductSearchString = productSearchString;
             ViewBag.CustomerSearchString = customerSearchString;
 
-            switch (showComplete)
-            {
-                case "yes":
-                    break;
-                default:
-                    orders = orders.Where(x => x.Status != OrderStatus.Complete);
-                    break;
-            }
+            //switch (showComplete)
+            //{
+            //    case "yes":
+            //        break;
+            //    default:
+            //        orders = orders.Where(x => x.Status != OrderStatus.Complete);
+            //        break;
+            //}
             switch (sortOrder)
             {
                 case "prod":

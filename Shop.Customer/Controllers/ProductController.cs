@@ -61,7 +61,7 @@ namespace Shop.Web.Controllers
 
             var numberOfProducts = products.Count();
 
-            var pageSize = 10;
+            var pageSize = 100;
             var pageNumber = (page ?? 0);
             products = products.Skip(pageSize * pageNumber).Take(pageSize);
 

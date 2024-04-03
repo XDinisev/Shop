@@ -1,8 +1,13 @@
-﻿@{
+﻿@using Shop.Business.Services
+@using Shop.Business.Models
+@inject CheckService checkService
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p class="align-content-center">Are you searching for a shop with products like asdasdasd and ksdnvlrmfslkdf? You are at the right place!</p>
+<div class="text-white text-center">
+    <h1 class="text-white display-4 text-white">Welcome</h1>
+    
+    <p class="text-white align-content-center text-white">Are you searching for a shop with products like asdasdasd and ksdnvlrmfslkdf? You are at the right place!</p>
 </div>

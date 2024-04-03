@@ -14,7 +14,7 @@
 		
 		<set name="Products" table="`Product`">
 			<key column="CategoryId"/>
-			<one-to-many class="Order"/>
+			<one-to-many class="text-white Order"/>
 		</set>
 
 	</class>

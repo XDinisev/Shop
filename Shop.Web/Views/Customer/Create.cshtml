@@ -8,45 +8,46 @@
 <h1>Create Customer</h1>
 
 <hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="text-white row">
+    <div class="text-white col-md-4">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
+            <div asp-validation-summary="ModelOnly" class="text-white text-danger"></div>
+            <div class="text-white form-group">
+                <label asp-for="FirstName" class="text-white control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+                <span asp-validation-for="FirstName" class="text-white text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
+            <div class="text-white form-group">
+                <label asp-for="LastName" class="text-white control-label"></label>
                 <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+                <span asp-validation-for="LastName" class="text-white text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Username" class="control-label"></label>
+            <div class="text-white form-group">
+                <label asp-for="Username" class="text-white control-label"></label>
                 <input asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-danger"></span>
+                <span asp-validation-for="Username" class="text-white text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
+            <div class="text-white form-group">
+                <label asp-for="Password" class="text-white control-label"></label>
                 <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
+                <span asp-validation-for="Password" class="text-white text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
+            <div class="text-white form-group">
+                <label asp-for="Email" class="text-white control-label"></label>
                 <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <span asp-validation-for="Email" class="text-white text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="text-white form-group">
                 <label asp-for="UserType" class="control-label"></label>
                 @Html.DropDownList("UserType",
                                    Html.GetEnumSelectList(typeof(UserType)),
                                    "Choose",
                                    new { @class = "form-control" } )
-                <span asp-validation-for="UserType" class="text-danger"></span>
+                <span asp-validation-for="UserType" class="text-white text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <br />
+            <div class="text-white form-group">
+                <input type="submit" value="Create" class="text-white btn btn-primary" />
             </div>
         </form>
     </div>

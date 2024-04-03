@@ -6,6 +6,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="FluentNHibernate" Version="3.1.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
 		<PackageReference Include="NHibernate" Version="5.3.12" />
 	</ItemGroup>
 
@@ -13,5 +15,9 @@
 		<ProjectReference Include="..\Shop.Domain\Shop.Domain.csproj" />
 		<ProjectReference Include="..\Shop.NHibernate\Shop.NHibernate.csproj" />
 	</ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
 
 </Project>

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Shop.Business.Mapper;
 using Shop.Business.Models;
@@ -32,7 +34,12 @@ namespace Shop.Business.Services
             _unitOfWork.BeginTransaction();
 
             var category = _categoryRepository.GetById(product.CategoryId);
-            _productRepository.Add(new Product(product.Id, product.Title, product.Status, product.Description, product.Orders, category));// new Category(product.Category.Title, product.Category.Status, product.Category.IsDefault)));
+            var pictureStream = product.Picture.OpenReadStream();
+            var br = new BinaryReader(pictureStream);
+            var bytes = br.ReadBytes((int)pictureStream.Length);
+            var base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
+            //var stream= new Stream
+            _productRepository.Add(new Product(product.Id, product.Title, product.Status, product.Description, product.Orders, category, base64String));// new Category(product.Category.Title, product.Category.Status, product.Category.IsDefault)));
 
             _unitOfWork.Commit();
         }
@@ -90,7 +97,7 @@ namespace Shop.Business.Services
         {
             _unitOfWork.BeginTransaction();
 
-            var allProducts = _productRepository.GetAll()?.Select(x => x.MapToViewModel());
+            var allProducts = _productRepository.GetAll().ToList()?.Select(x => x.MapToViewModel());
 
             _unitOfWork.Commit();
 

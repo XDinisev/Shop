@@ -16,6 +16,7 @@ namespace Shop.NHibernate.Mapping
             Map(x => x.Title).Not.Nullable();
             Map(x => x.Status).Not.Nullable().Not.Nullable();
             Map(x => x.Description);
+            Map(x => x.Picture).Length(10000);
             References(x => x.Category)
                 .Column("CategoryId");
             HasMany(x => x.Orders)

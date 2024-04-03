@@ -1,77 +1,84 @@
-﻿@model IEnumerable<Shop.Business.Models.CategoryViewModel>
+﻿@using Shop.Business.Services
+@model IEnumerable<Shop.Business.Models.CategoryViewModel>
 
 @{
 	ViewData["Title"] = "Index";
 }
 
-<h1>Categories</h1>
+<div style="overflow: hidden; height: 400px; max-height: 400px; position: relative;" class="text-white rounded-4">
+	<img style="display: block; width: 100%; height: auto; position: absolute; bottom: 0;" class="text-white d-block w-100 c-img" src="https://t3.ftcdn.net/jpg/01/17/33/22/360_F_117332203_ekwDZkViF6M3itApEFRIH4844XjJ7zEb.jpg" alt="First slide">
+	<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+		<span style="color: white; font-size: 300%;">Categories</span>
+	</div>
+</div>
 
-<p>
-	<a asp-action="Create">Create New Category</a>
-</p>
-<button style="display: block; margin-top: 1em; margin-bottom: 1em;" class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#filtering">Filtering</button>
-<div id="filtering" class="collapse">
-	<form asp-controller="Category" asp-action="Index" method="get" class="col-md-4">
-		<input hidden type="text" name="sortOrder" class="form-control" value=@ViewBag.CurrentSort>
-		<input hidden type="text" name="showDisabled" class="form-control" value=@ViewBag.ShowDisabled>
-		<div class="form-group">
-			<label class="form-label">
+@if (CheckService.CurrentlyLoggedIn != null && CheckService.CurrentlyLoggedIn.UserType == Shop.Domain.Entities.UserType.Internal)
+{
+	<p>
+		<a asp-action="Create">Create New Category</a>
+	</p>
+}
+<button style="display: block; margin-top: 1em; margin-bottom: 1em;" class="text-white btn btn-secondary" type="button" data-toggle="collapse" data-target="#filtering">Filtering</button>
+<div id="filtering" class="text-white collapse">
+	<form asp-controller="Category" asp-action="Index" method="get" class="text-white col-md-4">
+		<input hidden type="text" name="sortOrder" class=" form-control" value=@ViewBag.CurrentSort>
+		<input hidden type="text" name="showDisabled" class=" form-control" value=@ViewBag.ShowDisabled>
+		<div class="text-white form-group">
+			<label class="text-white form-label">
 				Title
 				<input type="text" name="titleSearchString" class="form-control" value=@ViewBag.TitleSearchString>
 			</label>
 		</div>
-		<div class="form-group">
-			<input type="submit" value="Search" class="btn btn-secondary" />
+		<div class="text-white form-group">
+			<input type="submit" value="Search" class="text-white btn btn-secondary" />
 		</div>
-		<div class="form-group">
+		<div class="text-white form-group">
 			@Html.ActionLink(ViewBag.ShowDisabledToggle=="yes"? "Show Disabled": "Hide Disabled", "Index", new { sortOrder=ViewBag.CurrentSort, showDisabled = ViewBag.ShowDisabledToggle, titleSearchString = ViewBag.TitleSearchString})
 		</div>
 	</form>
 </div>
 
-<table class="table">
-	<thead>
-		<tr>
-			<th>
-				@Html.ActionLink(Html.DisplayNameFor(model => model.Title), "Index", new { sortOrder = ViewBag.NameSortToggle, showDisabled=ViewBag.ShowDisabled, titleSearchString = ViewBag.TitleSearchString})
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Status)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.IsDefault)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Quantity)
-			</th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var item in Model)
-		{
-			<tr>
-				<td>
-					@Html.DisplayFor(modelItem => item.Title)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Status)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.IsDefault)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Quantity)
-				</td>
-				<td>
-					@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-					@Html.ActionLink("Details", "Details", new { id=item.Id }) |
-					@Html.ActionLink("Delete", "Delete", new { id=item.Id })
-					@*@Html.ActionLink("Products", "ListProducts", new { id=item.Id })*@
-				</td>
-			</tr>
-		}
-	</tbody>
-</table>
-@Html.ActionLink("Previous Page", "Index", new { sortOrder = ViewBag.CurrentSort, showDisabled=ViewBag.ShowDisabled, titleSearchString = ViewBag.TitleSearchString, page = ViewBag.PreviousPage}, new { @class="btn btn-primary", style=ViewBag.FirstPage ? "display: none" : "" })
-@Html.ActionLink("Next Page", "Index", new { sortOrder = ViewBag.CurrentSort, showDisabled=ViewBag.ShowDisabled, titleSearchString = ViewBag.TitleSearchString, page = ViewBag.NextPage}, new { @class="btn btn-primary", style=ViewBag.LastPage ? "display: none" : "" })
+<div class="text-white row row-cols-1 row-cols-md-3 g-4">
+	@foreach (var item in Model)
+	{
+		<div class="text-white col-12 col-sm-6 col-lg-4 d-flex justify-content-center">
+			<div class="text-white card h-150 bg-dark" style="width: 18rem;">
+				<img src="https://t3.ftcdn.net/jpg/03/59/09/04/360_F_359090423_7kA3WC9HnDEf1I9dx4ccGFhhO90vmzhk.jpg" class="text-white card-img-top" alt="...">
+				<div class="text-white card-body d-flex align-items-start flex-column mb-3">
+					<h5 class="text-white card-title text-white">@Html.DisplayFor(modelItem => item.Title)</h5>
+					<p class="text-white card-text text-white" style="--max-lines: 3; overflow: hidden;display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: var(--max-lines);">
+						@Html.DisplayFor(modelItem => item.Quantity) Products
+					</p>
+
+					@if (CheckService.CurrentlyLoggedIn != null && CheckService.CurrentlyLoggedIn.UserType == Shop.Domain.Entities.UserType.Internal)
+					{
+						@Html.ActionLink("Edit", "Edit", new { id=item.Id })
+						@Html.ActionLink("Details", "Details", new { id = item.Id })
+						@Html.ActionLink("Delete", "Delete", new { id = item.Id })
+					}
+
+					<form asp-controller="Product" asp-action="Index" method="get" class="text-white col-md-4">
+						<input hidden type="text" name="sortOrder" class=" form-control" value=@ViewBag.CurrentSort>
+						<input hidden type="text" name="showUnavailiable" class=" form-control" value=@ViewBag.ShowUnavailiable>
+						<div class="text-white form-group">
+							<label class="text-white form-label">
+								<input hidden type="text" name="titleSearchString" class=" form-control" value=@ViewBag.TitleSearchString>
+							</label>
+						</div>
+						<div class="text-white form-group">
+							<label hidden class="text-white form-label">
+								<input hidden type="text" name="categorySearchString" class=" form-control" value=@item.Title>
+							</label>
+						</div>
+						<div class="text-white form-group">
+							<input type="submit" value="View Products" class="text-white btn btn-primary" />
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	}
+</div>
+
+@Html.ActionLink("Previous Page", "Index", new { sortOrder = ViewBag.CurrentSort, showDisabled=ViewBag.ShowDisabled, titleSearchString = ViewBag.TitleSearchString, page = ViewBag.PreviousPage}, new { @class="text-white btn btn-primary", style=ViewBag.FirstPage ? "display: none" : "" })
+@Html.ActionLink("Next Page", "Index", new { sortOrder = ViewBag.CurrentSort, showDisabled=ViewBag.ShowDisabled, titleSearchString = ViewBag.TitleSearchString, page = ViewBag.NextPage}, new { @class="text-white btn btn-primary", style=ViewBag.LastPage ? "display: none" : "" })

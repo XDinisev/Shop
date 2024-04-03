@@ -1,75 +1,80 @@
-﻿@model IEnumerable<Shop.Business.Models.ProductViewModel>
+﻿@using Shop.Business.Services
+@model IEnumerable<Shop.Business.Models.ProductViewModel>
 
 @{
 	ViewData["Title"] = "Index";
 }
 
-<h1>Products</h1>
+<style>
 
-<p>
-	<a asp-action="Create">Add New Product</a>
-</p>
-<button style="display: block; margin-top: 1em; margin-bottom: 1em;" class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#filtering">Filtering</button>
-<div id="filtering" class="collapse">
-<form asp-controller="Product" asp-action="Index" method="get" class="col-md-4">
-	<input hidden type="text" name="sortOrder" class="form-control" value=@ViewBag.CurrentSort>
-	<input hidden type="text" name="showUnavailiable" class="form-control" value=@ViewBag.ShowUnavailiable>
-	<div class="form-group">
-		<label class="form-label">
-			Title
-			<input type="text" name="titleSearchString" class="form-control" value=@ViewBag.TitleSearchString>
-		</label>
+</style>
+
+<div style="overflow: hidden; height: 400px; max-height: 400px; position: relative;" class="text-white rounded-4">
+	<img style="display: block; width: 100%; height: auto; position: absolute; bottom: 0;" class="text-white d-block w-100 c-img" src="https://t3.ftcdn.net/jpg/01/17/33/22/360_F_117332203_ekwDZkViF6M3itApEFRIH4844XjJ7zEb.jpg" alt="First slide">
+	<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+		<span style="color: white; font-size: 300%;">Products</span>
 	</div>
-	<div class="form-group">
-		<label class="form-label">
-			Category
-			<input type="text" name="categorySearchString" class="form-control" value=@ViewBag.CategorySearchString>
-		</label>
-	</div>
-	<div class="form-group">
-		<input type="submit" value="Search" class="btn btn-secondary" />
-	</div>
-	<div class="form-group">
-		@Html.ActionLink(ViewBag.ShowUnavailiableToggle=="yes"? "Show Unavailiable": "Hide Unavailiable", "Index", new { sortOrder=ViewBag.CurrentSort, showUnavailiable = ViewBag.ShowUnavailiableToggle, titleSearchString = ViewBag.TitleSearchString, categorySearchString = ViewBag.CategorySearchString})
-	</div>
-</form>
 </div>
-<table class="table">
-	<thead>
-		<tr>
-			<th>
-				@Html.ActionLink(Html.DisplayNameFor(model => model.Title), "Index", new { sortOrder = ViewBag.NameSortToggle, showUnavailiable=ViewBag.ShowUnavailiable, titleSearchString = ViewBag.TitleSearchString, categorySearchString = ViewBag.CategorySearchString})
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Status)
-			</th>
-			<th>
-				@Html.ActionLink(Html.DisplayNameFor(model => model.Category), "Index", new { sortOrder = ViewBag.CategorySortToggle, showUnavailiable=ViewBag.ShowUnavailiable, titleSearchString = ViewBag.TitleSearchString, categorySearchString = ViewBag.CategorySearchString})
-			</th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var item in Model)
-		{
-			<tr>
-				<td>
-					@Html.DisplayFor(modelItem => item.Title)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Status)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Category.Title)
-				</td>
-				<td>
-					@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-					@Html.ActionLink("Details", "Details", new { id=item.Id }) |
-					@Html.ActionLink("Delete", "Delete", new { id=item.Id })
-				</td>
-			</tr>
-		}
-	</tbody>
-</table>
-@Html.ActionLink("Previous Page", "Index", new { sortOrder=ViewBag.CurrentSort, showUnavailiable = ViewBag.ShowUnavailiable, titleSearchString = ViewBag.TitleSearchString, categorySearchString = ViewBag.CategorySearchString, page = ViewBag.PreviousPage}, new { @class="btn btn-primary", style=ViewBag.FirstPage ? "display: none" : "" })
-@Html.ActionLink("Next Page", "Index", new { sortOrder=ViewBag.CurrentSort, showUnavailiable = ViewBag.ShowUnavailiable, titleSearchString = ViewBag.TitleSearchString, categorySearchString = ViewBag.CategorySearchString, page = ViewBag.NextPage}, new { @class="btn btn-primary", style=ViewBag.LastPage ? "display: none" : "" })
+
+@if (CheckService.CurrentlyLoggedIn != null && CheckService.CurrentlyLoggedIn.UserType == Shop.Domain.Entities.UserType.Internal)
+{
+	<p>
+		<a asp-action="Create">Add New Product</a>
+	</p>
+}
+<button style="display: block; margin-top: 1em; margin-bottom: 1em;" class="text-white btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#filtering">Filtering</button>
+<div id="filtering" class="text-white collapse">
+	<form asp-controller="Product" asp-action="Index" method="get" class="text-white col-md-4">
+		<input hidden type="text" name="sortOrder" class=" form-control" value=@ViewBag.CurrentSort>
+		<input hidden type="text" name="showUnavailiable" class=" form-control" value=@ViewBag.ShowUnavailiable>
+		<div class="text-white form-group">
+			<label class="text-white form-label">
+				Title
+				<input type="text" name="titleSearchString" class=" form-control" value=@ViewBag.TitleSearchString>
+			</label>
+		</div>
+		<div class="text-white form-group">
+			<label class="text-white form-label">
+				Category
+				<input type="text" name="categorySearchString" class=" form-control" value=@ViewBag.CategorySearchString>
+			</label>
+		</div>
+		<div class="text-white form-group">
+			<input type="submit" value="Search" class="text-white btn btn-secondary" />
+		</div>
+		<div class="text-white form-group">
+			@Html.ActionLink(ViewBag.ShowUnavailiableToggle=="yes"? "Show Unavailiable": "Hide Unavailiable", "Index", new { sortOrder=ViewBag.CurrentSort, showUnavailiable = ViewBag.ShowUnavailiableToggle, titleSearchString = ViewBag.TitleSearchString, categorySearchString = ViewBag.CategorySearchString})
+		</div>
+	</form>
+</div>
+<div class="text-white row row-cols-1 row-cols-md-3 g-4">
+	@foreach (var item in Model)
+	{
+		<div class="text-white col-12 col-sm-6 col-lg-4 d-flex justify-content-center">
+			<div class="text-white card h-150 bg-dark" style="width: 18rem;">
+				@if(item.PictureBase64!=null )
+				{
+				<img src="data:image/*; base64, @item.PictureBase64" class="text-white card-img-top" alt="...">
+				}
+				<div class="text-white card-body d-flex align-items-start flex-column mb-3">
+					<h5 class="text-white card-title text-white">@Html.DisplayFor(modelItem => item.Title)</h5>
+					<p class="text-white card-text text-white" style="--max-lines: 3; overflow: hidden;display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: var(--max-lines);">
+						@Html.DisplayFor(modelItem => item.Description)
+					</p>
+
+					@if (CheckService.CurrentlyLoggedIn != null && CheckService.CurrentlyLoggedIn.UserType == Shop.Domain.Entities.UserType.Internal)
+					{
+						@Html.ActionLink("Edit", "Edit", new { id=item.Id })
+						@Html.ActionLink("Details", "Details", new { id = item.Id })
+						@Html.ActionLink("Delete", "Delete", new { id = item.Id })
+					}
+
+					<a asp-action="Create" asp-controller="Order" class="text-white btn btn-primary mt-auto p2">Order</a>
+
+				</div>
+			</div>
+		</div>
+	}
+</div>
+@Html.ActionLink("Previous Page", "Index", new { sortOrder=ViewBag.CurrentSort, showUnavailiable = ViewBag.ShowUnavailiable, titleSearchString = ViewBag.TitleSearchString, categorySearchString = ViewBag.CategorySearchString, page = ViewBag.PreviousPage}, new { @class="text-white btn btn-primary", style=ViewBag.FirstPage ? "display: none" : "" })
+@Html.ActionLink("Next Page", "Index", new { sortOrder=ViewBag.CurrentSort, showUnavailiable = ViewBag.ShowUnavailiable, titleSearchString = ViewBag.TitleSearchString, categorySearchString = ViewBag.CategorySearchString, page = ViewBag.NextPage}, new { @class="text-white btn btn-primary", style=ViewBag.LastPage ? "display: none" : "" })

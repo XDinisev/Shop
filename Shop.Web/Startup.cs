@@ -40,6 +40,8 @@ namespace Shop.Web
 
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<ICustomerService, CustomerService>();
+
+            services.AddSingleton<CheckService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
